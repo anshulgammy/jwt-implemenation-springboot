@@ -14,6 +14,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.techbrunch.jwt.authorizationserver.model.UserDetails;
 
+import io.jsonwebtoken.Jwts;
+
 /**
  * @author TechBrunch This class responsible for the authentication process *
  */
@@ -31,8 +33,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 		try {
 			UserDetails userDetails = new ObjectMapper().readValue(request.getInputStream(), UserDetails.class);
 			final Boolean isUserValid = isUserValid(userDetails);
-			if(isUserValid) {
+			if (isUserValid) {
 				// generate the token and return the token
+				createTokenAndAddToHeader(request, response, filterChain, userDetails);
 			} else {
 				throw new Exception("Incorrect username/password was provided.");
 			}
@@ -52,6 +55,14 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 			return true;
 		}
 		return false;
+	}
+
+	private void createTokenAndAddToHeader(HttpServletRequest req, HttpServletResponse res, FilterChain chain, UserDetails userDetails)
+			throws IOException, ServletException {
+		String token = Jwts.builder().setSubject(userDetailsgetUsername())
+				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+				.signWith(SignatureAlgorithm.HS512, SECRET).compact();
+		res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
 	}
 
 }

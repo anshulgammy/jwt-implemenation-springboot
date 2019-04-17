@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserDetails {
-	@Value("${username}")
+	@Value("${authorization.username}")
 	private String username;
-	@Value("${password}")
+	@Value("${authorization.password}")
 	private String password;
 
 	public String getUsername() {

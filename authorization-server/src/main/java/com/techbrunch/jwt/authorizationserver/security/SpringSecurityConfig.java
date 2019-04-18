@@ -16,7 +16,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.addFilterBefore(new CustomFilterForCors(), ChannelProcessingFilter.class);
-		http.addFilterBefore(new JWTAuthenticationFilter(), ChannelProcessingFilter.class);
 		http.csrf().disable();
 	}
 	

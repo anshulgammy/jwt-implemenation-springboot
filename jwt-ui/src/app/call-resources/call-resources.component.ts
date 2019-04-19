@@ -22,17 +22,9 @@ export class CallResourcesComponent implements OnInit {
       .postServiceCall(this.userDetails, "http://localhost:7787/", "student/all", true)
       .subscribe(data => {
         this.callResourceTextMessage = JSON.stringify(data);
-        console.log(data);
-        this.getCallResourceTextMessage();
       }, error => {
         this.callResourceTextMessage = "Token got Invalid";
-        this.getCallResourceTextMessage();
       });
-  }
-
-  getCallResourceTextMessage = function():string {
-    console.log(this.callResourceTextMessage);
-    return this.callResourceTextMessage;
   }
 
 }

@@ -22,6 +22,9 @@ export class AppService {
   putJwtTokenInCookie = function(jwtToken) {
     this.jwtToken = jwtToken;
     this.cookieService.set( 'jwtToken', jwtToken );
+    this.callResourcesOption.headers = new HttpHeaders({
+      Authorization: "Bearer " + this.jwtToken
+    });
   };
 
   removeJwtTokenCookie = function() {
@@ -36,9 +39,13 @@ export class AppService {
   postServiceCall(
     requestBody: Object,
     baseUrl: string,
-    resourceUrl: string
+    resourceUrl: string, flag: boolean
   ): Observable<Object> {
     var completeEndpointUrl: string = baseUrl + resourceUrl;
-    return this.http.post(completeEndpointUrl, requestBody, getTokenOption);
+    if(!flag) {
+      return this.http.post(completeEndpointUrl, requestBody, getTokenOption);
+    } else {
+      return this.http.post(completeEndpointUrl, requestBody, this.callResourcesOption);
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { AppService } from "./services/service";
 import { UserDetails } from "./beans/userdetails";
+import { CallResourcesComponent } from './call-resources/call-resources.component';
 
 @Component({
   selector: "app-root",
@@ -17,11 +18,15 @@ export class AppComponent {
     // call authorization server to get JWT Token.
     this.appService.removeJwtTokenCookie();
     this.appService
-      .postServiceCall(this.userDetails, "http://localhost:8585/", "token/get")
+      .postServiceCall(this.userDetails, "http://localhost:8585/", "token/get", false)
       .subscribe(data => {
         const userDetails: UserDetails = data;
         this.appService.putJwtTokenInCookie(userDetails.jwtToken);
       });
+  };
+
+  getStudent = function() {
+    const callResourceObj = new CallResourcesComponent(this.appService);
   };
 
   ngOnInit() {

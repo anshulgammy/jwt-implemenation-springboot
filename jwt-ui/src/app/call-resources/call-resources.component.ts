@@ -8,10 +8,9 @@ import { AppService } from '../services/service';
 })
 export class CallResourcesComponent implements OnInit {
 
-  callResourceTextMessage: string = "";
+  callResourceTextMessage: string = "Click on Call Student Web Service to make call to Student Web Service.";
 
   constructor(private appService: AppService) {
-    this.getStudent();
   }
 
   ngOnInit() {
@@ -21,9 +20,9 @@ export class CallResourcesComponent implements OnInit {
     this.appService
       .postServiceCall(this.userDetails, "http://localhost:7787/", "student/all", true)
       .subscribe(data => {
-        this.callResourceTextMessage = JSON.stringify(data);
+        alert(JSON.stringify(data));
       }, error => {
-        this.callResourceTextMessage = "Token got Invalid";
+        alert("Token got Invalid");
       });
   }
 

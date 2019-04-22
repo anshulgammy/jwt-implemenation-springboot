@@ -27,6 +27,7 @@ export class AppComponent {
 
   getStudent = function() {
     const callResourceObj = new CallResourcesComponent(this.appService);
+    callResourceObj.getStudent();
   };
 
   ngOnInit() {
